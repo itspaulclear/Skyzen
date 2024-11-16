@@ -1,7 +1,0 @@
-package com.miempresa.articulos.controller;
-
-public class ArticuloNotFoundException extends RuntimeException{
-	public ArticuloNotFoundException(String nombre) {
-		super(String.format("Artículo con nombre %s no encontrado", nombre));
-	}
-}
