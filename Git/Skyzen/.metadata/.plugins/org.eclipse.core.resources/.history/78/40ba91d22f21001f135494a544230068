@@ -1,0 +1,39 @@
+package skyzen;
+
+public enum AfricanCountriesActivities {
+    PK("Parque Nacional Kruger, Sudáfrica", "Safari en vehículo para avistar a los \"Big Five\" y caminata guiada para explorar la flora y fauna locales", 120),
+    BRC("Blyde River Canyon, Sudáfrica", "Visita al Mirador de God’s Window para disfrutar de vistas panorámicas y paseo en barco por la represa del cañón", 120),
+    PNP("Pilanesberg, Sudáfrica", "Safari en vehículo para avistar la vida silvestre y visita al centro de interpretación para aprender sobre la ecología del parque", 120),
+    SS("Stellenbosch, Sudáfrica", "Tour de una bodega con cata de vinos y paseo por el centro histórico para explorar la arquitectura colonial", 120),
+    HS("Hermanus, Sudáfrica", "Paseo en barco para avistar ballenas y caminata por el acantilado para disfrutar de las vistas panorámicas", 120),
+    CS("Cederberg, Sudáfrica", "Caminata para ver las formaciones rocosas y visita a los sitios de arte rupestre para explorar la historia local", 120),
+    PND("Parque Nacional Drakensberg, Sudáfrica", "Caminata corta en Tugela Gorge para disfrutar de vistas y visita a las pinturas rupestres san para aprender sobre la cultura local", 120),
+    RM("Reserva Natural de Mkhaya, Esuatini (Suazilandia)", "Safari en vehículo para avistar rinocerontes y visita a la reserva de elefantes para aprender sobre la conservación", 120),
+    VRF("Valle del Río Fish, Namibia", "Visita al mirador del Cañón del Río Fish para disfrutar de vistas panorámicas y caminata corta por el borde del cañón", 120),
+    SN("Sossusvlei, Namibia", "Subida a la Duna 45 para obtener vistas panorámicas y paseo por Deadvlei para explorar las dunas y árboles secos", 120),
+    IB("Isla de Bazaruto, Mozambique", "Snorkel en los arrecifes de coral y paseo por las dunas de arena para disfrutar de la belleza natural", 120),
+    PNS("Parque Nacional del Serengeti, Tanzania", "Safari en vehículo para observar la vida silvestre y visita a un kopje para explorar las formaciones rocosas", 120),
+    ACN("Área de Conservación de Ngorongoro, Tanzania", "Safari en el cráter para avistar animales y visita al mirador del cráter para disfrutar de vistas panorámicas", 120),
+    PNK("Parque Nacional del Kilimanjaro, Tanzania", "Caminata corta para explorar la base de la montaña y visita a una cascada para disfrutar de la naturaleza", 120),
+    ZB("Zanzíbar, Tanzania", "Exploración de Stone Town para conocer la historia y cultura locales y tiempo libre en la playa para relajarse", 120),
+    LM("Lamu, Kenia", "Caminata por el casco antiguo para explorar la arquitectura y cultura swahili y tiempo libre en la playa para nadar y relajarse", 120),
+    RG("Ruinas de Gedi, Kenia", "Visita a las ruinas para explorar la historia y cultura swahili y caminata por el bosque para observar la vida silvestre", 120),
+    PNV("Parque Nacional de los Volcanes, Ruanda", "Trekking para observar gorilas de montaña y visita a un pueblo para conocer la cultura local", 120),
+    PNB("Parque Nacional de Bwindi, Uganda", "Trekking para observar gorilas de montaña y visita a una comunidad local para aprender sobre su estilo de vida", 120);
+
+    private final String lugar;
+    private final String descripcion;
+    private final int duracion;
+
+    private AfricanCountriesActivities(String lugar, String descripcion, int duracion) {
+		this.lugar = lugar;
+		this.descripcion = descripcion;
+		this.duracion = duracion;
+	}
+
+	@Override
+    public String toString() {
+        return lugar + " (" + descripcion + ", " + duracion + " minutos)";
+    }
+}
+

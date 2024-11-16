@@ -1,0 +1,150 @@
+package skyzen;
+
+import java.util.HashSet;
+import java.util.Set;
+
+public class Book {
+    private String title;
+    private String author;
+    private String plot;
+    private int pages;
+    private int rating;
+    private String imageUrl;
+
+    public Book(String title, int rating) {
+        this.title = title;
+        this.rating = rating;
+    }
+
+    public Book(String title, String author, String plot, int pages) {
+        this.title = title;
+        this.author = author;
+        this.plot = plot;
+        this.pages = pages;
+    }
+
+    public Book(String title, String author, String plot, int pages, String imageUrl) {
+        this.title = title;
+        this.author = author;
+        this.plot = plot;
+        this.pages = pages;
+        this.imageUrl = imageUrl;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getPlot() {
+        return plot;
+    }
+
+    public int getPages() {
+        return pages;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    // Método para calcular la complejidad de la trama
+    public int evaluatePlotComplexity() {
+        int complexity = 0;
+
+        // Riqueza del vocabulario
+        if (plot != null && !plot.isEmpty()) {
+            Set<String> uniqueWords = new HashSet<>();
+            String[] words = plot.split("\\W+");
+            for (String word : words) {
+                uniqueWords.add(word.toLowerCase());
+            }
+            complexity = (uniqueWords.size() / 20) * 2;
+            if (complexity > 20) {
+                complexity = 20;
+            }
+        }
+
+        return complexity;
+    }
+
+    // Método para calcular la puntuación del destino
+    public int calculateScore() {
+        int score = 0;
+        int maxScore = 100;
+
+        // Pesos para cada campo
+        double weightTitle = 0.2;
+        double weightAuthor = 0.1;
+        double weightPlot = 0.3;
+        double weightPages = 0.15; // Ajustado para reflejar el nuevo límite
+        double weightRating = 0.25; // Ajustado para reflejar el cambio en los pesos
+
+        // Evaluación del título (consideramos longitud y diversidad de palabras como una medida de riqueza)
+        if (title != null && !title.isEmpty()) {
+            score += (int) (title.length() * weightTitle);
+        }
+
+        // Evaluación del autor (simplemente consideramos si está presente o no)
+        if (author != null && !author.isEmpty()) {
+            score += (int) (10 * weightAuthor);
+        }
+
+        // Evaluación de la complejidad de la trama
+        score += (int) (evaluatePlotComplexity() * weightPlot);
+
+        // Evaluación del número de páginas (más páginas puede sugerir una lectura más profunda)
+        if (pages > 0) {
+            int pagesScore = (int) (pages / 100.0 * weightPages * 100); // Normalizamos a un máximo de 1000 páginas
+            if (pagesScore > 15) {
+                pagesScore = 15; // Limitar la puntuación de las páginas a un máximo de 15 puntos
+            }
+            score += pagesScore;
+        }
+
+        // Evaluación de la calificación (se usa directamente el valor de la calificación)
+        if (rating > 0 && rating <= 5) {
+            score += (int) ((rating / 5.0) * weightRating * 100);
+        }
+
+        // Asegurar que la puntuación no exceda el máximo
+        if (score > maxScore) {
+            score = maxScore;
+        }
+
+        return score;
+    }
+
+    public static void main(String[] args) {
+        Book book1 = new Book("El señor de los anillos", "J.R.R. Tolkien", "Una aventura épica en la Tierra Media.", 1216, "http://example.com/lotr.jpg");
+        Book book2 = new Book("1984", "George Orwell", "Una distopía sobre un régimen totalitario.", 328, "http://example.com/1984.jpg");
+        Book book3 = new Book("Un título muy corto", "Autor", "Un argumento simple.", 150, "http://example.com/short.jpg");
+        Book book4 = new Book("El nombre del viento", "Patrick Rothfuss", "En una posada en tierra de nadie, un hombre se dispone a relatar, por primera vez, la auténtica historia de su vida. Una historia que únicamente él conoce y que ha quedado diluida tras los rumores, las conjeturas y los cuentos de taberna que le han convertido en un personaje legendario a quien todos daban ya por muerto: Kvothe... músico, mendigo, ladrón, estudiante, mago, héroe y asesino. Ahora va a revelar la verdad sobre sí mismo. Y para ello debe empezar por el principio: su infancia en una troupe de artistas itinerantes, los años malviviendo como un ladronzuelo en las calles de una gran ciudad y su llegada a una universidad donde esperaba encontrar todas las respuestas que había estado buscando", 880, "/BooksCover/El nombre del viento.jpg");
+        Book book5 = new Book(
+                "Una larga y detallada exploración de los aspectos filosóficos de la naturaleza humana",
+                "Autor Ejemplar",
+                "En una tierra lejana, un grupo de individuos con habilidades extraordinarias se embarca en una épica aventura para desentrañar los secretos del universo. A lo largo de su viaje, enfrentan desafíos inimaginables y descubren verdades profundas sobre la existencia y la conciencia. Cada personaje aporta una perspectiva única, enriqueciendo la narrativa con debates filosóficos y dilemas morales. La trama se complica aún más con la inclusión de varios reinos, cada uno con su propia cultura, historia y conflictos internos. A medida que la historia avanza, las conexiones entre los personajes y sus mundos se tejen en una red intrincada de intrigas y revelaciones. Esta compleja narrativa explora temas de identidad, libre albedrío y el propósito de la vida, manteniendo al lector en un constante estado de reflexión y asombro.",
+                1500,
+                "http://example.com/detailed_exploration.jpg"
+            );
+        Book book6 = new Book("El vuelo de la libélula", "Ana Iturgaiz", "Marta llega a Vietnam para escribir una guía de viajes. Para ella es mucho más que un simple encargo: es su primera oportunidad para hacerse valer en la editorial donde trabaja. Y para conseguirlo, no piensa limitarse a hablar de playas paradisíacas ni lugares fotografiados millones de veces. Aunque nunca pensó que la oportunidad de conocer el verdadero Vietnam se le presentaría en forma de un empresario de la artesanía vietnamita y de tres pequeños huérfanos.", 304, "/BooksCover/El vuelo de la libélula.jpg")),
+        
+        
+        System.out.println("Puntuación del libro 1:");
+        System.out.println(book1.calculateScore());
+
+        System.out.println("\nPuntuación del libro 2:");
+        System.out.println(book2.calculateScore());
+
+        System.out.println("\nPuntuación del libro 3:");
+        System.out.println(book6.calculateScore());
+    }
+}
+

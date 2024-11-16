@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    font-family: "Raleway", serif;
+}
+
+#contenedor {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+}
+
+#c1 {
+    display: flex;
+    padding: 0% 10% 0% 10%;
+    flex-direction: column;
+    justify-content: center;
+    width: 50%;
+}
+
+#c1 div {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#logo {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    transition: scale 0.3s ease;
+}
+
+#logo:hover{
+    scale: 90%;
+}
+
+#c1 div p {
+    width: 100%;
+}
+
+#c1 div h1 {
+    font-weight: bold;
+    font-size: 3.6em;
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+#c1 div h2 {
+    color: rgb(58, 170, 255);
+    font-weight: 900;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+#c2 {
+    background-color: rgb(58, 170, 255);
+    width: 50%;
+    padding: 0% 10% 0% 10%;
+}
+
+#botonMenu {
+    position: absolute;
+    scale: 70%;
+    top: 10px;
+    right: 25px;
+    cursor: pointer;
+    transition: scale 0.3s ease;
+}
+
+#astronauta {
+    position: absolute;
+    scale: 70%;
+    top: 40%;
+    left: 75%;
+    transform: translate(-50%, -50%);
+}
+
+#lista {
+    position: absolute;
+    top: 50%;
+    left: 75%;
+    transform: translate(-50%, -50%);
+}
+
+#lista li {
+    font-size: 35pt;
+    margin-bottom: 10px;
+    color: white;
+    font-weight: 700;
+    display: none;
+    transition: text-shadow 0.3s ease; 
+}
+
+#lista li:hover { 
+    border-radius: 10px;  
+    text-shadow: 3px 3px black;
+    cursor: pointer;
+}
+
+@media(max-width:468px) {
+    body{
+        overflow: hidden;
+    }
+
+    #astronauta {
+        top: 30%;
+        left: calc(95vw - 40%);
+        transform: translate(-50%, -50%);
+        scale: 40%;
+    }
+
+    #c1 div h1 {
+        font-weight: bold;
+        font-size: 2em;
+        margin-bottom: 5px;
+        width: 100%;
+    }
+
+    #lista li {
+        font-size: 15pt;
+    }
+}

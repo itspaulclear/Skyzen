@@ -1,0 +1,198 @@
+package skyzen;
+
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
+
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType0Font;
+
+import javafx.animation.FadeTransition;
+import javafx.application.Platform;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
+import javafx.stage.Popup;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+
+public class NorthEuropeanCountries {
+    private static final Random RANDOM = new Random();
+    private final Set<String> usedDestinations = new HashSet<>(); 
+
+    public void start(Stage primaryStage, LocalDate entry, LocalDate departure) {
+        Font customFont = Font.loadFont(getClass().getResourceAsStream("/soulwayfont-demo.otf"), 36);
+        Font customFont2 = Font.loadFont(getClass().getResourceAsStream("/futura light bt.ttf"), 20);
+
+        Image image = new Image("/NorthEuropeanImages/Cover.jpg");
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(900);
+        imageView.setFitHeight(400);
+        imageView.setTranslateY(30);
+        imageView.setPreserveRatio(true);
+
+        Text text = new Text("Recorre las mejores rutas\nde los territorios escandinavos");
+        text.setFill(Color.WHITE);
+        text.setTextAlignment(TextAlignment.CENTER);
+        text.setFont(customFont);
+        text.setTranslateY(-110);
+
+        Text subText = new Text("Disfruta al máximo de la experiencia de atravesar el glaciar islandés en un\n trineo tirado por perros, sudar en la mayor sauna de vapor del mundo\n en Kuopio o aprovechar el sol de medianoche en alguno de los animados\n bares de Trømso.");
+        subText.setFill(Color.WHITE);
+        subText.setTextAlignment(TextAlignment.CENTER);
+        subText.setFont(customFont2);
+        subText.setTranslateY(10);
+        
+        StackPane imageStack = new StackPane(imageView, text, subText);
+        imageStack.setAlignment(Pos.CENTER);
+        
+        Text itinerario = new Text("Itinerario");
+        itinerario.setFont(customFont2);
+        itinerario.setTranslateY(30);
+
+        VBox content = new VBox(40, imageStack, itinerario, createActivitiesGrid(entry, departure));
+        content.setAlignment(Pos.CENTER);
+
+        ScrollPane scrollPane = new ScrollPane(content);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+        scrollPane.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+        StackPane root = new StackPane(scrollPane);
+        root.setStyle("-fx-background-color: #F5EFED; -fx-padding: 10px; -fx-border-color: white; -fx-border-width: 10px; -fx-border-radius: 10px;");
+        
+        Scene scene = new Scene(root, 900, 600);
+
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Países nórdicos");
+        primaryStage.show();
+    }
+
+    private VBox createActivitiesGrid(LocalDate entry, LocalDate departure) {
+        VBox vBox = new VBox(10);
+        vBox.setAlignment(Pos.CENTER);
+
+        LocalDate currentDate = entry;
+        int day = 1;
+        while (!currentDate.isAfter(departure)) {
+        	Text dayText = new Text("Día " + day++);
+            VBox dayActivities = new VBox();
+            dayActivities.setAlignment(Pos.CENTER);
+            dayActivities.getChildren().add(dayText);
+            HBox imagesContainer = new HBox(10);
+            imagesContainer.setAlignment(Pos.CENTER);
+
+            for (int i = 0; i < 3; i++) {
+                NorthEuropeanCountriesActivities activity = getRandomActivity();
+                Image image = new Image(activity.getImagenes());
+                ImageView imageView = new ImageView(image);
+                imageView.setFitWidth(100);
+                imageView.setFitHeight(100);
+                
+                imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                    showActivityDetailsPopup(activity);
+                });
+                
+                Text description = new Text(activity.getLugar());
+                description.setFont(Font.font(14));
+                
+                VBox imageWithDescription = new VBox(5);
+                imageWithDescription.getChildren().addAll(imageView, description);
+                imageWithDescription.setAlignment(Pos.CENTER);
+                
+                imagesContainer.getChildren().add(imageWithDescription);
+            }
+
+            dayActivities.getChildren().add(imagesContainer);
+            vBox.getChildren().add(dayActivities);
+            currentDate = currentDate.plusDays(1);
+        }
+
+        return vBox;
+    }
+
+    private void showActivityDetailsPopup(NorthEuropeanCountriesActivities activity) {
+        Stage popupStage = new Stage();
+        popupStage.setTitle("Detalles de la Actividad");
+
+        VBox popupContent = new VBox(10);
+        popupContent.setAlignment(Pos.CENTER); // Centrar verticalmente el contenido
+        popupContent.setStyle("-fx-padding: 20px; -fx-background-color: #F5EFED;");
+
+        popupStage.setWidth(400);
+        popupStage.setHeight(400);
+
+        Text title = new Text(activity.getLugar());
+        title.setFont(Font.font(20));
+        title.setFill(Color.BLACK);
+
+        ImageView imageView = new ImageView(new Image(activity.getImagenes()));
+        imageView.setFitWidth(200);
+        imageView.setFitHeight(200);
+        imageView.setPreserveRatio(true);
+
+        Text description = new Text(activity.getDescripcion());
+        description.setFont(Font.font(14));
+        description.setWrappingWidth(250);
+        description.setFill(Color.BLACK);
+
+        Hyperlink closeLink = new Hyperlink("Cerrar");
+        closeLink.setOnAction(event -> popupStage.close());
+
+        popupContent.getChildren().addAll(title, imageView, description, closeLink);
+
+        // Crear un ScrollPane y establecer su contenido como el VBox
+        ScrollPane scrollPane = new ScrollPane(popupContent);
+        scrollPane.setStyle("-fx-background-color: transparent;");
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+        Scene popupScene = new Scene(scrollPane);
+        popupStage.setScene(popupScene);
+        popupStage.show();
+    }
+
+
+    private NorthEuropeanCountriesActivities getRandomActivity() {
+        NorthEuropeanCountriesActivities[] activities = NorthEuropeanCountriesActivities.values();
+        NorthEuropeanCountriesActivities randomActivity;
+        do {
+            randomActivity = activities[RANDOM.nextInt(activities.length)];
+        } while (usedDestinations.contains(randomActivity.getLugar()));
+
+        usedDestinations.add(randomActivity.getLugar());
+        return randomActivity;
+    }
+
+    public int calculateVisitDuration(LocalDate inDate, LocalDate outDate) {
+        return (int) ChronoUnit.DAYS.between(inDate, outDate.plusDays(1));
+    }
+    
+}
+    

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="skyzen.AllowedBooks"/>
+    <fullyQualifiedTypeName name="javafx.scene.image.WritableImage"/>
+    <fullyQualifiedTypeName name="javafx.scene.image.PixelWriter"/>
+    <fullyQualifiedTypeName name="java.awt.Color"/>
+    <fullyQualifiedTypeName name="java.awt.Rectangle"/>
+    <fullyQualifiedTypeName name="skyzen.LoggedSession"/>
+    <fullyQualifiedTypeName name="javafx.scene.control.ProgressIndicator"/>
+    <fullyQualifiedTypeName name="javafx.scene.text.TextAlignment"/>
+    <fullyQualifiedTypeName name="skyzen.UserData"/>
+</qualifiedTypeNameHistroy>

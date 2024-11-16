@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="~{layout/base :: cabecera}"></head>
+<body>
+	<div class=" alert alert-success" th:if="${success != null}" th:text="${success}"></div>
+	<div class="alert alert-warning" th:if="${warning != null}" th:text="${warning}"></div>
+	<h1 th:text="${cabecera}"></h1>
+	<p th:text="${titular}"></p>
+	<a th:href="@{/articulos/nuevo}">Añadir nuevo artículo</a>
+	<div class>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Nombre</th>
+					<th>Categoría</th>
+					<th>Precio</th>
+					<th>Cantidad</th>
+					<th>Acciones</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="articulo : ${articulos}">
+					<td th:text="${articulo.id}"></td>
+					<td th:text="${articulo.nombre}"></td>
+					<td><a th:text="${articulo.categoria}" th:href="@{/articulos/listado/categoria/} + ${articulo.categoria}"></a></td>
+					<td th:text="${articulo.precio}"></td>
+					<td th:text="${articulo.cantidad}"></td>
+					<td>
+						<a th:href="@{/articulos/listado/id/} + ${articulo.id}">Ver</a>
+						<a th:href="@{/articulos/borrar/} + ${articulo.id}" onclick="return confirm('¿Seguro que desea borrar el elemento?')">Borrar</a>
+						<a th:href="@{/articulos/form/} + ${articulo.id}">Editar</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<a th:if="${tipoListado.equals('categoria')}" th:href="@{/articulos/listado}">Regresar al listado general</a>
+	<script th:replace="~{layout/base :: link}"></script>
+</body>
+</html>

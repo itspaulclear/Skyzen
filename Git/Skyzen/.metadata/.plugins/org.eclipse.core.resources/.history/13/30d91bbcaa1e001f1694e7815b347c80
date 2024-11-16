@@ -1,0 +1,53 @@
+package skyzen;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+public class UserData {
+    private String origin;
+    private String distance;
+    private LocalDate entryDate;
+    private LocalDate departureDate;
+    private List<String> readBooks;
+    private List<String> additionalBooks;
+    
+	public UserData(String origin, String distance, LocalDate entryDate, LocalDate departureDate, List<String> readBooks, List<String> additionalBooks) {
+		this.origin = origin;
+		this.distance = distance;
+		this.entryDate = entryDate;
+		this.departureDate = departureDate;
+		this.readBooks = readBooks;
+		this.additionalBooks = additionalBooks;
+	}
+
+    public UserData() {
+        this.readBooks = new ArrayList<>();
+        this.additionalBooks = new ArrayList<>();
+    }
+    
+    
+
+	public void setOrigin(String origin) {
+		this.origin = origin;
+	}
+
+	public void setDistance(String distance) {
+		this.distance = distance;
+	}
+
+	public void setEntryDate(LocalDate entryDate) {
+		this.entryDate = entryDate;
+	}
+
+	public void setDepartureDate(LocalDate departureDate) {
+		this.departureDate = departureDate;
+	}
+
+	public void setReadBooks(List<String> readBooks) {
+		this.readBooks = readBooks;
+	}
+
+
+    
+}

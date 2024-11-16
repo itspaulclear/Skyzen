@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="~{layout/base :: cabecera}"></head>
+<body>
+
+</body>
+</html>

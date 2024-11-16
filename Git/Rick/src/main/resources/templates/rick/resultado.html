@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="~{layout/base :: cabecera}"></head>
+<body>
+	<h1 th:text="${cabecera}"></h1>
+	<p th:text="${titulo}"></p>
+	<ul>
+		<li>Número del episodio: <span th:text="${numeroEpisodio}"></span></li>
+		<li>Nombre: <span th:text="${episodio.name}"></span></li>
+		<li>Fecha de emisión: <span th:text="${episodio.air_date}"></span></li>
+		<li>Código: <span th:text="${episodio.episode}"></span></li>
+		<li>Personajes: 
+			<ul th:each="character : ${episodio.characters}">
+				<li th:text="${character}"></li>
+			</ul>
+		</li>
+		<li>Enlace: <span th:text="${episodio.url}"></span></li>
+		<li>Fecha de creación en la base de datos: <span th:text="${episodio.created}"></span></li>
+	</ul>
+	<a th:href="@{/rick/buscar}"><button>Buscar otro episodio</button></a>
+	<script th:replace="~{layout/base :: enlace}"></script>
+</body>
+</html>

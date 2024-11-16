@@ -1,0 +1,5 @@
+package com.miempresa.articulos.restcontroller;
+
+public class BicicletaRestController {
+
+}
