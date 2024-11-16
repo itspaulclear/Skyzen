@@ -1,3 +1,0 @@
-INDEX VERSION 1.134
-file:/G:/Mi%20unidad/CFGS%20DAW/Programación/Skyzen/Skyzen/.metadata/.plugins/org.eclipse.jdt.core/1865797976.index
-meta_index
