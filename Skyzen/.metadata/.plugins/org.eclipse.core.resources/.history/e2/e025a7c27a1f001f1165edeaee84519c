@@ -1,0 +1,21 @@
+package skyzen;
+
+import javafx.stage.Stage;
+
+public class AmericanCountries {
+
+    public void start(Stage primaryStage) {
+        System.out.println("Hola Países nórdicos!");
+        
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+	private static void launch(String[] args) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

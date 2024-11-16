@@ -1,0 +1,110 @@
+package skyzen;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+public class UserData {
+    private String origin;
+    private String distance;
+    private LocalDate entryDate;
+    private LocalDate departureDate;
+    private List<String> readBooks;
+    private List<String> additionalBooks;
+
+    public UserData(String origin, String distance, LocalDate entryDate, LocalDate departureDate, List<String> readBooks, List<String> additionalBooks) {
+        this.origin = origin;
+        this.distance = distance;
+        this.entryDate = entryDate;
+        this.departureDate = departureDate;
+        this.readBooks = readBooks;
+        this.additionalBooks = additionalBooks;
+    }
+
+    public UserData() {
+        this.readBooks = new ArrayList<>();
+        this.additionalBooks = new ArrayList<>();
+    }
+
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
+
+    public void setDistance(String distance) {
+        this.distance = distance;
+    }
+
+    public void setEntryDate(LocalDate entryDate) {
+        this.entryDate = entryDate;
+    }
+
+    public void setDepartureDate(LocalDate departureDate) {
+        this.departureDate = departureDate;
+    }
+
+    public void setReadBooks(List<String> readBooks) {
+        this.readBooks = readBooks;
+    }
+
+    public void setAdditionalBooks(List<String> additionalBooks) {
+        this.additionalBooks = additionalBooks;
+    }
+
+    public int evaluateDestination() {
+        int score = calculateAuthorExperienceScore() + calculateReadBooksScore() + calculateDistanceScore() + calculateDurationScore();
+
+        if (score > 100) {
+            score = 100;
+        }
+
+        return score;
+    }
+
+    private int calculateAuthorExperienceScore() {
+        Set<String> uniqueBooks = new HashSet<>(readBooks);
+        int numUniqueBooks = uniqueBooks.size();
+        int maxBooksConsidered = 10;
+        int score = (int) ((numUniqueBooks / (double) maxBooksConsidered) * 100);
+
+        return score;
+    }
+
+    private int calculateReadBooksScore() {
+        int numReadBooks = readBooks.size();
+        int maxBooksConsidered = 20; // Consideramos un máximo de 20 libros leídos
+        int score = (int) ((numReadBooks / (double) maxBooksConsidered) * 100);
+
+        return score;
+    }
+
+    private int calculateDistanceScore() {
+        if (distance.equals("Corta distancia")) {
+            return 15; 
+        } else {
+            return 30;
+        }
+    }
+
+    private int calculateDurationScore() {
+        LocalDate currentDate = LocalDate.now();
+        long daysUntilDeparture = java.time.temporal.ChronoUnit.DAYS.between(currentDate, departureDate);
+        
+        if (daysUntilDeparture < 7) {
+            return 20;
+        }
+
+        else if (daysUntilDeparture < 30) {
+            return 50;
+        }
+
+        else if (daysUntilDeparture < 90) {
+            return 80;
+        }
+
+        else {
+            return 100;
+        }
+    }
+}

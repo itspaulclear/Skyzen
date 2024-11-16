@@ -1,0 +1,63 @@
+package skyzen;
+
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
+
+public class OceanicCountries extends Application {
+
+    @Override
+    public void start(Stage primaryStage) {
+        // Crear una ImageView para la imagen de la card
+        Image image = new Image("file:/path/to/your/image.jpg"); // Reemplaza con la ruta de tu imagen
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(200);
+        imageView.setFitHeight(150);
+        imageView.setPreserveRatio(true);
+
+        // Crear un Label para el título de la card
+        Label titleLabel = new Label("Título de la Card");
+        titleLabel.setFont(new Font("Arial", 20));
+
+        // Crear un Label para la descripción de la card
+        Label descriptionLabel = new Label("Esta es la descripción de la card. Aquí puedes poner información adicional.");
+        descriptionLabel.setWrapText(true);
+
+        // Crear un VBox para contener la imagen y el texto
+        VBox cardContent = new VBox(10);
+        cardContent.setAlignment(Pos.TOP_CENTER);
+        cardContent.getChildren().addAll(imageView, titleLabel, descriptionLabel);
+
+        // Añadir padding y estilo a la card
+        cardContent.setPadding(new Insets(15));
+        cardContent.setStyle("-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-border-width: 1px;");
+
+        // Crear una etiqueta de mensaje
+        Label messageLabel = new Label("Hola países oceánicos!");
+
+        // Crear un StackPane para centrar la card en la escena
+        StackPane root = new StackPane();
+        root.getChildren().addAll(messageLabel, cardContent);
+        StackPane.setAlignment(messageLabel, Pos.TOP_CENTER);
+        StackPane.setMargin(messageLabel, new Insets(20));
+        StackPane.setAlignment(cardContent, Pos.CENTER);
+
+        // Crear la escena
+        Scene scene = new Scene(root, 900, 600);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Países oceánicos");
+        primaryStage.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+}
