@@ -1,0 +1,166 @@
+package skyzen;
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
+
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+public class AmericanCountries {
+
+    private static final Random RANDOM = new Random();
+    private final Set<String> usedDestinations = new HashSet<>(); 
+
+    public void start(Stage primaryStage, LocalDate entry, LocalDate departure) {
+        Font customFont = Font.loadFont(getClass().getResourceAsStream("/soulwayfont-demo.otf"), 30);
+        Font customFont2 = Font.loadFont(getClass().getResourceAsStream("/futura light bt.ttf"), 20);
+
+        Image image = new Image("/AmericanImages/Cover.jpg");
+        ImageView imageView = new ImageView(image);
+        imageView.fitWidthProperty().bind(primaryStage.widthProperty());
+        imageView.fitHeightProperty().bind(primaryStage.heightProperty());
+        imageView.setPreserveRatio(true);
+
+        Text text = new Text("Embárcate en tu propia odisea Americana");
+        text.setFill(Color.WHITE);
+        text.setFont(customFont);
+        text.setTranslateX(-80);
+        text.setTranslateY(-120);
+
+        Text subText = new Text("El corazón de América del Norte late entre altísimos bosques, campos ondulantes,\ndesiertos en altas llanuras, metrópolis inquietas y oasis poco convencionales.");
+        subText.setFill(Color.WHITE);
+        subText.setFont(customFont2);
+        subText.setTranslateX(-35);
+
+        StackPane imageStack = new StackPane(imageView, text, subText);
+        imageStack.setAlignment(Pos.CENTER);
+        
+        Text itinerario = new Text("Itinerario");
+        itinerario.setFont(customFont2);
+        itinerario.setTranslateX(0);
+        itinerario.setTranslateY(30);
+
+        VBox content = new VBox(40, imageStack, itinerario, createActivitiesGrid(entry, departure));
+        content.setAlignment(Pos.CENTER);
+
+        ScrollPane scrollPane = new ScrollPane(content);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+        scrollPane.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+        StackPane root = new StackPane(scrollPane);
+        root.setStyle("-fx-background-color: #F5EFED; -fx-padding: 10px; -fx-border-color: white; -fx-border-width: 10px; -fx-border-radius: 10px;");
+        root.setPadding(new Insets(0));
+        
+        Scene scene = new Scene(root, 900, 600);
+
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Países americanos");
+        primaryStage.show();
+    }
+
+    private VBox createActivitiesGrid(LocalDate entry, LocalDate departure) {
+        VBox vBox = new VBox(10);
+        vBox.setAlignment(Pos.CENTER);
+
+        LocalDate currentDate = entry;
+        int day = 1;
+        while (!currentDate.isAfter(departure)) {
+        	Text dayText = new Text("Día " + day++);
+            VBox dayActivities = new VBox();
+            dayActivities.setAlignment(Pos.CENTER);
+            dayActivities.getChildren().add(dayText);
+            HBox imagesContainer = new HBox(10);
+            imagesContainer.setAlignment(Pos.CENTER);
+
+            for (int i = 0; i < 3; i++) {
+                AmericanCountriesActivities activity = getRandomActivity();
+                Image image = new Image(activity.getImagenes());
+                ImageView imageView = new ImageView(image);
+                imageView.setFitWidth(100);
+                imageView.setFitHeight(100);
+                
+                imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                    showActivityDetailsPopup(activity);
+                });
+                
+                Text description = new Text(activity.getLugar());
+                description.setFont(Font.font(14));
+                
+                VBox imageWithDescription = new VBox(5);
+                imageWithDescription.getChildren().addAll(imageView, description);
+                imageWithDescription.setAlignment(Pos.CENTER);
+                
+                imagesContainer.getChildren().add(imageWithDescription);
+            }
+
+            dayActivities.getChildren().add(imagesContainer);
+            vBox.getChildren().add(dayActivities);
+            currentDate = currentDate.plusDays(1);
+        }
+
+        return vBox;
+    }
+
+    private void showActivityDetailsPopup(AmericanCountriesActivities activity) {
+        Stage popupStage = new Stage();
+        popupStage.setTitle("Detalles de la Actividad");
+
+        VBox popupContent = new VBox(10);
+        popupContent.setAlignment(Pos.CENTER);
+        popupContent.setStyle("-fx-padding: 20px; -fx-background-color: white; -fx-border-color: black; -fx-border-width: 2px;");
+        
+        Text title = new Text(activity.getLugar());
+        title.setFont(Font.font(20));
+        title.setFill(Color.BLACK);
+
+        ImageView imageView = new ImageView(new Image(activity.getImagenes()));
+        imageView.setFitWidth(200);
+        imageView.setFitHeight(200);
+        imageView.setPreserveRatio(true);
+
+        Text description = new Text("Descripción de la actividad: " + activity.getDescripcion());
+        description.setFont(Font.font(14));
+        description.setWrappingWidth(250);
+        description.setFill(Color.BLACK);
+        
+        popupContent.getChildren().addAll(title, imageView, description);
+
+        Scene popupScene = new Scene(popupContent);
+        popupStage.setScene(popupScene);
+        popupStage.show();
+    }
+
+    private AmericanCountriesActivities getRandomActivity() {
+        AmericanCountriesActivities[] activities = AmericanCountriesActivities.values();
+        AmericanCountriesActivities randomActivity;
+        do {
+            randomActivity = activities[RANDOM.nextInt(activities.length)];
+        } while (usedDestinations.contains(randomActivity.getLugar()));
+
+        usedDestinations.add(randomActivity.getLugar());
+        return randomActivity;
+    }
+
+    public int calculateVisitDuration(LocalDate inDate, LocalDate outDate) {
+        return (int) ChronoUnit.DAYS.between(inDate, outDate.plusDays(1));
+    }
+
+}

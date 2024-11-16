@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head th:replace="~{layout/base :: cabecera}"></head>
+<body class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+
+    <div class="text-center p-5 border rounded-4 shadow-lg bg-white">
+        <div class="mb-4">
+            <i class="bi bi-x-circle text-danger display-1"></i>
+        </div>
+        <h1 class="display-3 text-danger fw-bold mb-3" th:text="${error}"></h1>
+        <p class="lead text-muted mb-3" th:text="${status}"></p>
+        <p class="text-body mb-2" th:text="${message}"></p>
+        <p class="small text-secondary mb-4" th:text="${timestamp}"></p>
+        <div class="mt-4">
+            <a href="#" class="btn btn-primary btn-lg px-4 py-2" role="button">
+                <i class="bi bi-arrow-left-circle"></i> Volver al listado
+            </a>
+        </div>
+    </div>
+	<script th:replace="~{layout/base :: enlace}"></script>
+</body>
+</html>

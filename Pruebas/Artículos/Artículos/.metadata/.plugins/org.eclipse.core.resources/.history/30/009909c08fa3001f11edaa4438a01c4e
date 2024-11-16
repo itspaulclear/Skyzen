@@ -1,0 +1,5 @@
+package com.miempresa.articulos.paginator;
+
+public class PageItem {
+
+}

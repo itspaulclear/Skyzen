@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head th:replace="~{layout/base :: cabecera}"></head>
+<body class="d-flex justify-content-center align-items-center min-vh-100 bg-gradient bg-light">
+
+    <div class="text-center p-5 border rounded-4 shadow-lg bg-white opacity-90 animate__animated animate__fadeInUp">
+        <div class="mb-4 animate__animated animate__zoomIn">
+            <i class="bi bi-x-circle text-danger display-1"></i>
+        </div>
+        <h1 class="display-3 text-danger fw-bold mb-3 animate__animated animate__fadeIn animate__delay-1s" th:text="${error}"></h1>
+        <p class="lead text-muted mb-3 animate__animated animate__fadeIn animate__delay-1s" th:text="${status}"></p>
+        <p class="text-body mb-2 animate__animated animate__fadeIn animate__delay-2s" th:text="${message}"></p>
+        <p class="small text-secondary mb-4 animate__animated animate__fadeIn animate__delay-2s" th:text="${timestamp}"></p>
+        <p class="small text-secondary animate__animated animate__fadeIn animate__delay-2s" th:text="${error}"></p>
+        <div class="mt-4 animate__animated animate__fadeIn animate__delay-3s">
+            <a href="#" class="btn btn-primary btn-lg px-4 py-2 shadow-sm" role="button">
+                <i class="bi bi-arrow-left-circle"></i> Volver a la página anterior
+            </a>
+        </div>
+    </div>
+
+    <script th:replace="~{layout/base :: enlace}"></script>
+</body>
+</html>

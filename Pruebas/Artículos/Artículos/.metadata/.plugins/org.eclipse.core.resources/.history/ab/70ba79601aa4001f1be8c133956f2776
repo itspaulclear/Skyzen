@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head th:replace="~{layout/base :: cabecera}"></head>
+<body>
+    <div class="container mt-5">
+        <h1 th:text="${cabecera}" class="text-center mb-4"></h1>
+        <div class="card shadow">
+            <div class="card-body">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <strong>Id:</strong> <span th:text="${articulo.id}"></span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Nombre:</strong> <span th:text="${articulo.nombre}"></span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Categoría:</strong> <span th:text="${articulo.categoria}"></span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Precio:</strong> <span th:text="${articulo.precio}"></span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Cantidad:</strong> <span th:text="${articulo.cantidad}"></span>
+                    </li>
+                </ul>
+                <div class="text-center mt-4">
+                    <a th:href="@{/articulos/listado}" class="btn btn-primary">Regresar al listado</a>
+                </div>
+            </div>
+        </div>
+    </div>
+   <script th:replace="~{layout/base :: link}"></script>
+</body>
+</html>

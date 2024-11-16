@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="~{layout/base :: cabecera}"></head>
+<body>
+
+	<script th:replace="~{layout/base :: enlace}"></script>
+</body>
+</html>

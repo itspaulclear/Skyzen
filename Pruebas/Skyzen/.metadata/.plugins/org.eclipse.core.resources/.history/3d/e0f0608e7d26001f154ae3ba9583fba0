@@ -1,0 +1,57 @@
+package skyzen;
+
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
+import jakarta.mail.Address;
+import jakarta.mail.Authenticator;
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
+
+import java.util.Properties;
+
+public class EmailAsset {
+    public static void sendEmail(String to, String subject, String content) {
+        // Propiedades del servidor SMTP
+        Properties props = new Properties();
+        props.put("mail.smtp.host", );
+        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+
+        // Autenticación del correo
+        final String username = "your-email@gmail.com"; // Cambia esto por tu correo
+        final String password = "your-password"; // Cambia esto por tu contraseña
+
+        // Crear la sesión
+        Session session = Session.getInstance(props, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+
+        try {
+            // Crear el mensaje
+            Message message = new Message(session);
+            message.setFrom(new Address(username));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+            message.setSubject(subject);
+            message.setText(content);
+
+            // Enviar el mensaje
+            Transport.send(message);
+
+            System.out.println("Correo enviado exitosamente");
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            System.out.println("Error al enviar el correo: " + e.getMessage());
+        }
+    }
+}
+

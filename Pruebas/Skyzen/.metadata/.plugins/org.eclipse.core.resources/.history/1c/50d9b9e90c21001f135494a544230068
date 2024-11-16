@@ -1,0 +1,107 @@
+package skyzen;
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
+
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+public class AfricanCountries {
+    public void start(Stage primaryStage, LocalDate entry, LocalDate departure) {
+        Font customFont = Font.loadFont(getClass().getResourceAsStream("/soulwayfont-demo.otf"), 36);
+        Font customFont2 = Font.loadFont(getClass().getResourceAsStream("/futura light bt.ttf"), 20);
+
+        Image image = new Image("/AfricanImages/Cover.jpg");
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(900);
+        imageView.setFitHeight(400);
+        imageView.setTranslateY(30);
+        imageView.setPreserveRatio(true);
+
+        Text text = new Text("Explora los rincones ocultos \ndel continente africano");
+        text.setFill(Color.WHITE);
+        text.setFont(customFont);
+        text.setTranslateX(-75);
+        text.setTranslateY(-100);
+
+        Text subText = new Text("África penetra bajo la piel, tanto si se visita por primera vez como si se viaja \nhasta allá con frecuencia. El lienzo sobre el cual \nse escribe la épica historia de este territorio es extraordinario, \ny razón suficiente para visitarlo");
+        subText.setFill(Color.WHITE);
+        subText.setFont(customFont2);
+        subText.setTranslateX(-20);
+        subText.setTranslateY(-5);
+
+        StackPane imageStack = new StackPane(imageView, text, subText);
+        imageStack.setAlignment(Pos.CENTER);
+        
+        Text itinerario = new Text("Itinerario");
+        itinerario.setFont(customFont2);
+        itinerario.setTranslateY(30);
+
+        List<Image> images = new ArrayList<>();
+        images.add(new Image("/BooksCover/Almendra.jpg"));
+        images.add(new Image("/BooksCover/El nombre del viento.jpg"));
+        images.add(new Image("/BooksCover/Amy y Roger.jpg"));
+        images.add(new Image("/BooksCover/La guerra de la amapola.jpg"));
+        images.add(new Image("/BooksCover/El mar robado.jpg"));
+        images.add(new Image("/BooksCover/Chicas salvajes.jpg"));
+        images.add(new Image("/BooksCover/Heima es hogar en islandés.jpg"));
+        images.add(new Image("/BooksCover/Palmeras en la nieve.jpg"));
+        images.add(new Image("/BooksCover/El vuelo de la libélula.jpg"));
+        images.add(new Image("/BooksCover/Robo.jpg"));
+        images.add(new Image("/BooksCover/El barco de Teseo.jpg"));
+
+        int visitDuration = calculateVisitDuration(entry, departure);
+        Image[] imagesArray = new Image[visitDuration];
+        for (int i = 0; i < visitDuration; i++) {
+            imagesArray[i] = images.get(i);
+        }
+
+        HBox hBox = new HBox(10);
+        for (Image img : imagesArray) {
+            ImageView imageView2 = new ImageView(img);
+            imageView2.setFitHeight(200);
+            imageView2.setPreserveRatio(true);
+            hBox.getChildren().add(imageView2);
+        }
+        hBox.setAlignment(Pos.CENTER);
+
+        VBox content = new VBox(20, imageStack, itinerario, hBox);
+        content.setAlignment(Pos.CENTER);
+
+        ScrollPane scrollPane = new ScrollPane(content);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+        scrollPane.setPrefSize(900, 400);
+        scrollPane.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+        StackPane root = new StackPane(scrollPane);
+        root.setStyle("-fx-background-color: #F5EFED; -fx-padding: 10px; -fx-border-color: white; -fx-border-width: 10px; -fx-border-radius: 10px;");
+        
+        Scene scene = new Scene(root, 900, 600);
+
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("África");
+        primaryStage.show();
+    }
+
+    public int calculateVisitDuration(LocalDate inDate, LocalDate outDate) {
+        return (int) ChronoUnit.DAYS.between(inDate, outDate.plusDays(1));
+    }
+}
+
+

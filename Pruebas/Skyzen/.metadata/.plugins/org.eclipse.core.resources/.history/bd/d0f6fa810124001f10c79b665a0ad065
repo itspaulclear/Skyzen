@@ -1,0 +1,5 @@
+package skyzen;
+
+public enum NorthEuropeanCountriesActivities {
+
+}

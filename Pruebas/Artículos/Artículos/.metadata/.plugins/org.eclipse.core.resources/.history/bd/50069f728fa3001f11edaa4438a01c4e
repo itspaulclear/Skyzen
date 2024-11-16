@@ -1,0 +1,45 @@
+package com.miempresa.articulos.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.miempresa.articulos.entity.Articulo;
+import com.miempresa.articulos.repository.IArticuloRepository;
+
+@Service("articuloService")
+public class ArticuloService implements IArticuloService{
+	@Autowired
+	private IArticuloRepository articuloRepository;
+
+	@Override
+	public Iterable<Articulo> getAllArticulos() {
+		return articuloRepository.findAll();
+	}
+	
+	@Override
+	public Iterable<Articulo> getArticulosByCategoria(String categoria) {
+		return articuloRepository.findAllByCategoria(categoria);
+	}
+
+	@Override
+	public Articulo getArticuloById(Long id) {
+		return articuloRepository.findById(id).orElse(null);
+	}
+
+	@Override
+	public void deleteById(Long id) {
+		articuloRepository.deleteById(id);
+	}
+
+	@Override
+	public void updateArticulos(Articulo articulo) {
+		articuloRepository.save(articulo);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Page<Pregunta> listarPaginado(Pageable pageable) {
+		return preguntaRepository.findAll(pageable);
+	}
+}
